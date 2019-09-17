@@ -1,12 +1,12 @@
-#### Regressão linear, regressão linear múltipla, 
-#### seleção de variáveis e regressão não paramétrica:
+#### RegressÃ£o linear, regressÃ£o linear mÃºltipla, 
+#### seleÃ§Ã£o de variÃ¡veis e regressÃ£o nÃ£o paramÃ©trica:
 
-# Regressão linear tem por objetivo predizer valores de uma 
-# variável a partir de outra. Predizer não é o mesmo que causar,
-# é tentar inferir um valor a partir de outro. A relação de 
-# causalidade (temporal) não é possível de inferir nesta análise.
+# RegressÃ£o linear tem por objetivo predizer valores de uma 
+# variÃ¡vel a partir de outra. Predizer nÃ£o Ã© o mesmo que causar,
+# Ã© tentar inferir um valor a partir de outro. A relaÃ§Ã£o de 
+# causalidade (temporal) nÃ£o Ã© possÃ­vel de inferir nesta anÃ¡lise.
 
-# Instalando os pacotes necessários
+# Instalando os pacotes necessÃ¡rios
 install.packages("lm.beta")
 library(lm.beta)
 install.packages("car")
@@ -15,61 +15,61 @@ library(car)
 # Carregando o banco:
 banco_rev<-read.csv(file.choose(),sep=";")
 
-# Análise de correlação e reta de aderência
+# AnÃ¡lise de correlaÃ§Ã£o e reta de aderÃªncia
 cor(banco_rev$SV,banco_rev$AU)
 plot(banco_rev$SV,banco_rev$AU)
 abline(lm(banco_rev$SV~banco_rev$AU), col="red")
 
-# Perceba que ao descrever a relação linear entre ambas 
-# as variáveis, utiliza-se uma reta.
-# Sua representação é x = b + ay + E
-# Em que "x" é a variável sendo predita (variável dependente), 
-# "b" é o intercepto (valor de y quando x = 0), 
-# "a" é a inclinação da reta ou coeficiente angular, 
-# "y" é o valor observado na variável preditora (variável independente),
-# e "E" é o erro associado. 
+# Perceba que ao descrever a relaÃ§Ã£o linear entre ambas 
+# as variÃ¡veis, utiliza-se uma reta.
+# Sua representaÃ§Ã£o Ã© y = b + ax + E
+# Em que "y" Ã© a variÃ¡vel sendo predita (variÃ¡vel dependente), 
+# "b" Ã© o intercepto (valor de y quando x = 0), 
+# "a" Ã© a inclinaÃ§Ã£o da reta ou coeficiente angular, 
+# "x" Ã© o valor observado na variÃ¡vel preditora (variÃ¡vel independente),
+# e "E" Ã© o erro associado. 
 
-# Utilizando a função "lm" (linear model),estime
-# os esses parâmetros, crie um modelo para 
-# predizer satisfação com a vida (SV) por meio de autonomia (AU):
+# Utilizando a funÃ§Ã£o "lm" (linear model),estime
+# os esses parÃ¢metros, crie um modelo para 
+# predizer satisfaÃ§Ã£o com a vida (SV) por meio de autonomia (AU):
 
 reg1 <- lm(banco_rev$SV ~ banco_rev$AU, data=banco_rev)
 
 summary(reg1)  # resumo do modelo
-coefficients(reg1) # coeficientes não padronizados 
+coefficients(reg1) # coeficientes nÃ£o padronizados 
 View(fitted(reg1)) # valores preditos
-View(residuals(reg1)) # resíduos
-View(cbind(banco_rev$SV,fitted(reg1),residuals(reg1))) #como visualizar valores originais, preditos e resíduos
-plot(reg1,1) # visualizando resíduos
-outlierTest(reg1) # detecção de outliers
-ncvTest(reg1) # teste de homocedasticidade dos resíduos
+View(residuals(reg1)) # resÃ­duos
+View(cbind(banco_rev$SV,fitted(reg1),residuals(reg1))) #como visualizar valores originais, preditos e resÃ­duos
+plot(reg1,1) # visualizando resÃ­duos
+outlierTest(reg1) # detecÃ§Ã£o de outliers
+ncvTest(reg1) # teste de homocedasticidade dos resÃ­duos
 
-# A partir do banco com os valores de SV, AU, valor predito e resíduo
-# e dos parâmetros da regressão, monte a fórmula de regressão:
+# A partir do banco com os valores de SV, AU, valor predito e resÃ­duo
+# e dos parÃ¢metros da regressÃ£o, monte a fÃ³rmula de regressÃ£o:
 View(cbind(banco_rev$SV,fitted(reg1),residuals(reg1),banco_rev$AU))
-x = b + ay + E
+y = b + ax + E
 
-# O coeficiente de regressão informado pela função lm é
-# o "b", um parâmetro **amostral** 
-# Para obter o parâmetro **populacional** ou beta é necessário
-# padronizar (z score) as variáveis dependente e independente:
-# usando a função "scale"
+# O coeficiente de regressÃ£o informado pela funÃ§Ã£o lm Ã©
+# o "b", um parÃ¢metro **amostral** 
+# Para obter o parÃ¢metro **populacional** ou beta Ã© necessÃ¡rio
+# padronizar (z score) as variÃ¡veis dependente e independente:
+# usando a funÃ§Ã£o "scale"
 SVz<-scale(banco_rev$SV,center=T,scale=T)
 AUz<-scale(banco_rev$AU,center=T,scale=T)
 cor(SVz,AUz)
 reg1z<-lm(SVz~AUz)
 summary(reg1z)
-# ou a função "lm.beta"
+# ou a funÃ§Ã£o "lm.beta"
 lm.beta(reg1)
 
-# Crie um modelo com as variáveis que mais se relacionam com SV
+# Crie um modelo com as variÃ¡veis que mais se relacionam com SV
 View(banco_rev)
 cor(banco_rev[,-c(1)]) 
 
-# Trata-se agora de um modelo de regressão linear múltipla, expresso por:
-#  x = b + a1y1 + a2y2 + ... + E
-# "a1" e "a2" são os coeficientes angulares das variáveis y1 e y2 do modelo
-# são estimados por meio de correlações semi-parciais com x, ou a VD
+# Trata-se agora de um modelo de regressÃ£o linear mÃºltipla, expresso por:
+#  y = b + a1x1 + a2x2 + ... + E
+# "a1" e "a2" sÃ£o os coeficientes angulares das variÃ¡veis x1 e x2 do modelo
+# sÃ£o estimados por meio de correlaÃ§Ãµes semi-parciais com y, ou a VD
 reg2<- lm(banco_rev$SV ~ banco_rev$AA + banco_rev$Dep , data=banco_rev)
 summary(reg2)
 lm.beta(reg2)
@@ -94,7 +94,7 @@ lm.beta(reg4)
 anova(reg2,reg4)
 cor(banco_rev$Ans,banco_rev$Dep)
 
-### Método "enter"
+### MÃ©todo "enter"
 reg5<- lm(banco_rev$SV ~ banco_rev$AA + banco_rev$Dep + banco_rev$AU + banco_rev$Ans , data=banco_rev)
 summary(reg5)
 lm.beta(reg5)
