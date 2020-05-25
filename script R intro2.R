@@ -1,10 +1,11 @@
 ### Introducaoo e ambientacao ao R/RStudio
+# Disponivel em: https://github.com/wagnerLM/quanti2/blob/master/script%20R%20intro2.R
 # Inspiradao em Torfs & Brauer (2012) e Epskamp (2013) "Introductions to R"
 # Todas as linhas iniciadas em "#" sao comentarios, e nao sao processadas como comandos ao software
 
 # Iniciando: reconhecendo os quadrantes do RStudio
 # Esquerdo-baixo: console e comando, mostra os registros de atividades, saidas de analises e e onde o "R" funciona
-# Esquerdo-alto: editor ou script, você pode armazenar seus comandos e salvar seus projetos
+# Esquerdo-alto: editor ou script, vocÃª pode armazenar seus comandos e salvar seus projetos
 # Direito-alto: espaco de trabalho e repositorio de seus "objetos"
 # Direito-baixo: arquivos de ajuda, imagens e graficos, informacoes dos pacotes
 
@@ -70,10 +71,10 @@ v1+1
 # Indexacao 
 v1<-c(5,2,10,1)
 v1
-# selecionando o 3º elemento de v1
+# selecionando o 3Âº elemento de v1
 v1[3]
 ## [1] 10
-# modificando o valor do 3º elemento de v1
+# modificando o valor do 3Âº elemento de v1
 v1[3]<-0
 v1
 ## [1] 5 2 0 1
@@ -165,7 +166,7 @@ dassnames
 # Ativando pacotes
 library(psych)
 
-# Medidas descritivas e inspeção de dados
+# Medidas descritivas e inspeÃ§Ã£o de dados
 ?summary
 summary(dasspoly[,c(3,5,10,13,16,17,21)])
 ?describe
@@ -179,7 +180,7 @@ cor.plot(dasspoly[,c(3,5,10,13,16,17,21)])
 cor.plot(dasspoly[,c(3,5,10,13,16,17,21)],numbers = T,cex = 0.75)
 cor.plot(dasspoly[,c(3,5,10,13,16,17,21)],numbers = T,cex = 0.75,labels = dasslabels[c(3,5,10,13,16,17,21)])
 
-# Análise fatorial com psych
+# AnÃ¡lise fatorial com psych
 ?fa
 fa(dasspoly[,c(3,5,10,13,16,17,21)],1)
 dass_d_fa<-fa(dasspoly[,c(3,5,10,13,16,17,21)],1)
